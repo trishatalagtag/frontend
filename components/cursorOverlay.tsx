@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 const CursorOverlay = () => {
   const { x, y } = useMousePosition();
   const size = 32;
-
   return (
     <motion.svg
       className="w-16 h-16 rounded-full backdrop-invert relative z-50 pointer-events-none"
@@ -17,7 +16,7 @@ const CursorOverlay = () => {
       transition={{
         type: "tween",
         ease: "easeOut",
-        duration: 0.25,
+        duration: 0.35,
       }}
     ></motion.svg>
   );
