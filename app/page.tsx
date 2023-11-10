@@ -1,51 +1,74 @@
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code"
-import { button as buttonStyles } from "@nextui-org/theme";
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+"use client";
+import useMousePosition from "@/components/mousePosition/useMousePosition";
+import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Description from "./home/description/page";
+import Information from "./home/explanation/page";
+const Earth = dynamic(() => import("@/components/earth"), {
+  ssr: false,
+  loading: () => <img src="/placeholder.png" alt="loading"></img>,
+});
 
-export default function Home() {
-	return (
-		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-			<div className="inline-block max-w-lg text-center justify-center">
-				<h1 className={title()}>Make&nbsp;</h1>
-				<h1 className={title({ color: "violet" })}>beautiful&nbsp;</h1>
-				<br />
-				<h1 className={title()}>
-					websites regardless of your design experience.
-				</h1>
-				<h2 className={subtitle({ class: "mt-4" })}>
-					Beautiful, fast and modern React UI library.
-				</h2>
-			</div>
+const Home = () => {
+  const [isHovered, setIsHovered] = useState(false);
+  const { x, y } = useMousePosition();
+  const size = isHovered ? 400 : 40;
+  const router = useRouter() as any;
+  return (
+    <div>
+      <div className="flex flex-col items-center justify-start">
+        <motion.h1
+          initial="initialState"
+          animate="animateState"
+          exit="exitState"
+          transition={{
+            duration: 1,
+            delay: 1,
+          }}
+          variants={{
+            initialState: {
+              opacity: 0,
+            },
+            animateState: {
+              opacity: 1,
+            },
+            exitState: {},
+          }}
+          className="text-[15vw] -m-10 bg-transparent tracking-tighter font-extrabold"
+        >
+          PROJECT K5
+        </motion.h1>
+        <motion.div
+          key={router.route}
+          initial="initialState"
+          animate="animateState"
+          exit="exitState"
+          transition={{
+            duration: 1,
+            delay: 0.5,
+          }}
+          variants={{
+            initialState: {
+              opacity: 0,
+            },
+            animateState: {
+              opacity: 1,
+            },
+            exitState: {},
+          }}
+          className="absolute top-56 left-0 right-0 h-screen w-screen grow"
+        >
+          <Earth />
+        </motion.div>
+      </div>
+      <div className={`flex flex-col items-center justify-center uppercase`}>
+        <Description />
+      </div>
+      <Information />
+    </div>
+  );
+};
 
-			<div className="flex gap-3">
-				<Link
-					isExternal
-					href={siteConfig.links.docs}
-					className={buttonStyles({ color: "primary", radius: "full", variant: "shadow" })}
-				>
-					Documentation
-				</Link>
-				<Link
-					isExternal
-					className={buttonStyles({ variant: "bordered", radius: "full" })}
-					href={siteConfig.links.github}
-				>
-					<GithubIcon size={20} />
-					GitHub
-				</Link>
-			</div>
-
-			<div className="mt-8">
-				<Snippet hideSymbol hideCopyButton variant="flat">
-					<span>
-						Get started by editing <Code color="primary">app/page.tsx</Code>
-					</span>
-				</Snippet>
-			</div>
-		</section>
-	);
-}
+export default Home;
