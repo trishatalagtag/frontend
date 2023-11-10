@@ -1,9 +1,6 @@
 "use client";
-
-import { useEffect } from "react";
-
 import Lenis from "@studio-freight/lenis";
-
+import { useEffect } from "react";
 export default function smoothScroll({ children }): any {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -15,7 +12,6 @@ export default function smoothScroll({ children }): any {
 
       requestAnimationFrame(raf);
     }
-
     requestAnimationFrame(raf);
   }, []);
 
